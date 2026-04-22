@@ -86,14 +86,21 @@ export default function ArticleEdit() {
     }
     setSaving(true);
     const payload = { ...form };
+    
+    // Fix empty number parsing for database
+    payload.estimated_read_time = payload.estimated_read_time ? parseInt(payload.estimated_read_time, 10) : null;
+
     if (mode === 'draft') {
       payload.is_published = false;
+      payload.publish_status = 'draft';
       payload.scheduled_publish_at = null;
     } else if (mode === 'publish') {
       payload.is_published = true;
+      payload.publish_status = 'published';
       payload.scheduled_publish_at = null;
     } else if (mode === 'schedule') {
       payload.is_published = false;
+      payload.publish_status = 'scheduled';
       payload.scheduled_publish_at = new Date(`${schedDate}T${schedTime}:00`).toISOString();
     }
     try {
@@ -140,7 +147,7 @@ export default function ArticleEdit() {
             <div className="form-group">
               <label className="form-label" style={{ fontWeight: 600 }}>Estimated read</label>
               <div style={{ position: 'relative' }}>
-                <input className="form-input" type="number" placeholder="5" value={form.estimated_read_time} onChange={e => setForm({ ...form, estimated_read_time: e.target.value })} style={{ borderRadius: 12, padding: '14px 16px', paddingRight: 80 }} />
+                <input className="form-input" type="number" onWheel={(e)=>e.target.blur()} placeholder="5" value={form.estimated_read_time} onChange={e => setForm({ ...form, estimated_read_time: e.target.value })} style={{ borderRadius: 12, padding: '14px 16px', paddingRight: 80 }} />
                 <span style={{ position: 'absolute', right: 16, top: 14, color: '#9CA3AF', fontSize: 14 }}>Minutes</span>
               </div>
             </div>
@@ -273,11 +280,11 @@ export default function ArticleEdit() {
           </div>
 
           {/* Status badge */}
-          {id && form.publish_status === 'scheduled' && form.scheduled_publish_at && (
+          {/* {id && form.publish_status === 'scheduled' && form.scheduled_publish_at && (
             <div style={{ marginBottom: 16, padding: '10px 16px', background: '#FFF8EC', border: '1px solid #FFB020', borderRadius: 10, fontSize: 13, color: '#B45309', textAlign: 'center' }}>
               ⏰ Scheduled to publish on {new Date(form.scheduled_publish_at).toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
             </div>
-          )}
+          )} */}
 
           <div style={{ display: 'flex', gap: 12, width: '100%', flexDirection: 'column' }}>
             <div style={{ display: 'flex', gap: 12 }}>

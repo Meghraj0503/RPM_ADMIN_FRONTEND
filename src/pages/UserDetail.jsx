@@ -145,7 +145,14 @@ export default function UserDetail() {
   const auditGroups = groupByDate(pagedAudit);
   const formatAuditChanges = (log) => {
     const j = log.changes_json || {};
-    const entries = Object.entries(j).filter(([k]) => !['user_id','admin_id'].includes(k));
+    const entries = [];
+    Object.entries(j).filter(([k]) => !['user_id','admin_id'].includes(k)).forEach(([k, v]) => {
+      if (v !== null && typeof v === 'object' && ('old' in v || 'new' in v)) {
+        entries.push([k, v.old, v.new]);
+      } else {
+        entries.push([k, null, v]);
+      }
+    });
     return entries;
   };
   const formatActionLabel = (type) => {
@@ -356,7 +363,7 @@ export default function UserDetail() {
                     <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#E8FBF7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00C9A7', fontSize: 18 }}><MdDirectionsRun /></div>
                     <div>
                       <div style={{ fontSize: 13, color: '#6B7280' }}>Height</div>
-                      <div style={{ fontSize: 24, fontWeight: 700 }}>{profile.height || '—'}<span style={{ fontSize: 14, color: '#9CA3AF', fontWeight: 500 }}> cm</span></div>
+                      <div style={{ fontSize: 24, fontWeight: 700 }}>{profile.height || '—'}<span style={{ fontSize: 14, color: '#9CA3AF', fontWeight: 500 }}> ft</span></div>
                     </div>
                   </div>
                   <div style={{ fontSize: 11, color: '#9CA3AF' }}>Normal height</div>
@@ -367,7 +374,7 @@ export default function UserDetail() {
                     <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#E8FBF7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00C9A7', fontSize: 18 }}><MdDirectionsRun /></div>
                     <div>
                       <div style={{ fontSize: 13, color: '#6B7280' }}>Weight</div>
-                      <div style={{ fontSize: 24, fontWeight: 700 }}>{profile.weight || '—'}<span style={{ fontSize: 14, color: '#9CA3AF', fontWeight: 500 }}> kg</span></div>
+                      <div style={{ fontSize: 24, fontWeight: 700 }}>{profile.weight || '—'}<span style={{ fontSize: 14, color: '#9CA3AF', fontWeight: 500 }}> lbs</span></div>
                     </div>
                   </div>
                   <div style={{ fontSize: 11, color: '#9CA3AF' }}>Normal weight</div>
@@ -523,7 +530,7 @@ export default function UserDetail() {
                         </div>
                         <div>
                           <div style={{ fontSize: 11, color: '#9CA3AF', marginBottom: 4 }}>Enrolled by</div>
-                          <div style={{ fontSize: 13, fontWeight: 500 }}>Admin : {sub.enrolled_by || 'System Auto'}</div>
+                          <div style={{ fontSize: 13, fontWeight: 500 }}>{sub.enrolled_by || 'System Auto'}</div>
                         </div>
                         <div>
                           <div style={{ fontSize: 11, color: '#9CA3AF', marginBottom: 4 }}>Duration</div>
@@ -853,7 +860,7 @@ export default function UserDetail() {
                               <span style={{ fontSize: 13 }}>{formatActionLabel(log.action_type)}</span>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                              <span style={{ fontSize: 12, color: '#6B7280' }}>Rohit Sharma {time}</span>
+                              <span style={{ fontSize: 12, color: '#6B7280' }}>Admin {time}</span>
                               <span style={{ color: '#9CA3AF', fontSize: 16 }}>{expanded ? '∧' : '∨'}</span>
                             </div>
                           </div>
@@ -871,11 +878,15 @@ export default function UserDetail() {
                                 <tbody>
                                   {changes.length === 0 ? (
                                     <tr><td colSpan={3} style={{ padding: 8, color: '#9CA3AF' }}>No details recorded</td></tr>
-                                  ) : changes.map(([k, v], ci) => (
+                                  ) : changes.map(([k, oldV, newV], ci) => (
                                     <tr key={ci}>
                                       <td style={{ padding: '6px 8px', fontWeight: 500, textTransform: 'capitalize' }}>{k.replace(/_/g,' ')}</td>
-                                      <td style={{ padding: '6px 8px', color: '#6B7280' }}>—</td>
-                                      <td style={{ padding: '6px 8px' }}>{typeof v === 'object' ? JSON.stringify(v) : String(v)}</td>
+                                      <td style={{ padding: '6px 8px', color: '#6B7280' }}>
+                                        {oldV == null || oldV === '' || (Array.isArray(oldV) && oldV.length === 0) ? '—' : (typeof oldV === 'object' ? JSON.stringify(oldV) : String(oldV))}
+                                      </td>
+                                      <td style={{ padding: '6px 8px' }}>
+                                        {newV == null || newV === '' || (Array.isArray(newV) && newV.length === 0) ? '—' : (typeof newV === 'object' ? JSON.stringify(newV) : String(newV))}
+                                      </td>
                                     </tr>
                                   ))}
                                 </tbody>

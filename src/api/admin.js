@@ -44,6 +44,15 @@ export const exportData       = (dataset, payload = {}) =>
   api.post('/api/admin/export', { dataset, ...payload }, { responseType: 'blob' });
 export const getExportHistory = () => api.get('/api/admin/export/history');
 
+// Questionnaires Management
+export const getQuestionnaires = () => api.get('/api/admin/questionnaires');
+export const createQuestionnaire = (data) => api.post('/api/admin/questionnaires', data);
+export const getQuestionnaireDetail = (id) => api.get(`/api/admin/questionnaires/${id}`);
+export const updateQuestionnaire = (id, data) => api.put(`/api/admin/questionnaires/${id}`, data);
+export const deleteQuestionnaire = (id) => api.delete(`/api/admin/questionnaires/${id}`);
+export const getQuestionnaireTargetUsers = (id) => api.get(`/api/admin/questionnaires/${id}/target-users`);
+export const assignQuestionnaire = (id, data) => api.post(`/api/admin/questionnaires/${id}/assign`, data);
+
 // Device Management
 export const getUserDevices  = (userId)         => api.get(`/api/admin/users/${userId}/devices`);
 export const assignDevice    = (userId, data)   => api.post(`/api/admin/users/${userId}/devices`, data);

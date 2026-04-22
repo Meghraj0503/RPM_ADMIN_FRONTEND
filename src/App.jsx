@@ -9,6 +9,9 @@ import AtRisk from './pages/AtRisk';
 import Articles from './pages/Articles';
 import ArticleEdit from './pages/ArticleEdit';
 import ExportData from './pages/ExportData';
+import Questionnaires from './pages/Questionnaires';
+import QuestionnaireBuilder from './pages/QuestionnaireBuilder';
+import QuestionnaireAssign from './pages/QuestionnaireAssign';
 import './index.css';
 //need to change later — now using real email+password login
 function ProtectedRoute({ children }) {
@@ -35,7 +38,10 @@ export default function App() {
           <Route path="users" element={<Users />} />
           <Route path="users/:id" element={<UserDetail />} />
           <Route path="at-risk" element={<AtRisk />} />
-          <Route path="questionnaires" element={<Dashboard />} />
+          <Route path="questionnaires" element={<Questionnaires />} />
+          <Route path="questionnaires/new" element={<QuestionnaireBuilder />} />
+          <Route path="questionnaires/:id/edit" element={<QuestionnaireBuilder />} />
+          <Route path="questionnaires/:id/assign" element={<QuestionnaireAssign />} />
           <Route path="articles" element={<Articles />} />
           <Route path="articles/new" element={<ArticleEdit />} />
           <Route path="articles/:id/edit" element={<ArticleEdit />} />

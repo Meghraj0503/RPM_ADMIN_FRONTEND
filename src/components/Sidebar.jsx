@@ -17,7 +17,7 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <span>AAYU</span>
+        <span>RPM</span>
       </div>
       <nav className="sidebar-nav">
         {navItems.map((item) => (

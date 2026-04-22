@@ -162,41 +162,143 @@ export default function ExportData() {
     <div style={{ fontSize: 12, fontWeight: 600, color: '#4B5563', marginBottom: 10 }}>{children}</div>
   );
 
-  const GenerateBtn = ({ type, onClick }) => {
-    const isRunning = gen[type];
-    const pct       = prog[type];
-    return (
-      <div style={{ marginTop: 'auto' }}>
+  // const GenerateBtn = ({ type, onClick }) => {
+  //   const isRunning = gen[type];
+  //   const pct       = prog[type];
+  //   return (
+  //     <div style={{ marginTop: 'auto' }}>
+  //       <button
+  //         onClick={onClick}
+  //         disabled={isRunning}
+  //         style={{
+  //           width: '100%', background: '#00C9A7', color: '#fff', border: 'none',
+  //           borderRadius: 24, padding: '12px', fontSize: 14, fontWeight: 700,
+  //           cursor: isRunning ? 'default' : 'pointer',
+  //           position: 'relative', overflow: 'hidden', display: 'flex',
+  //           alignItems: 'center', justifyContent: 'center', gap: 8
+  //         }}
+  //       >
+  //         {isRunning && (
+  //           <div style={{
+  //             position: 'absolute', left: 0, top: 0, bottom: 0,
+  //             background: 'rgba(255,255,255,0.25)', width: `${pct}%`,
+  //             transition: 'width 0.3s ease'
+  //           }} />
+  //         )}
+  //         <MdDownload size={18} />
+  //         {isRunning ? `Generating ${pct}%…` : 'Generate Report'}
+  //       </button>
+  //       {isRunning && (
+  //         <div style={{ height: 3, background: '#E5E7EB', borderRadius: 2, marginTop: 6, overflow: 'hidden' }}>
+  //           <div style={{ height: '100%', background: '#00C9A7', width: `${pct}%`, transition: 'width 0.3s' }} />
+  //         </div>
+  //       )}
+  //     </div>
+  //   );
+  // };
+const GenerateBtn = ({ type, onClick, onEmailClick }) => {
+  const isRunning = gen[type];
+  const pct = prog[type];
+
+  return (
+    <div style={{ marginTop: "auto" }}>
+      
+      {/* Buttons Row */}
+      <div
+        style={{
+          display: "flex",
+          gap: 10,
+          marginTop: 10
+        }}
+      >
+        {/* Generate Report */}
         <button
           onClick={onClick}
           disabled={isRunning}
           style={{
-            width: '100%', background: '#00C9A7', color: '#fff', border: 'none',
-            borderRadius: 24, padding: '12px', fontSize: 14, fontWeight: 700,
-            cursor: isRunning ? 'default' : 'pointer',
-            position: 'relative', overflow: 'hidden', display: 'flex',
-            alignItems: 'center', justifyContent: 'center', gap: 8
+            flex: 1,
+            background: "#00C9A7",
+            color: "#fff",
+            border: "none",
+            borderRadius: 24,
+            padding: "12px",
+            fontSize: 14,
+            fontWeight: 700,
+            cursor: isRunning ? "default" : "pointer",
+            position: "relative",
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8
           }}
         >
           {isRunning && (
-            <div style={{
-              position: 'absolute', left: 0, top: 0, bottom: 0,
-              background: 'rgba(255,255,255,0.25)', width: `${pct}%`,
-              transition: 'width 0.3s ease'
-            }} />
+            <div
+              style={{
+                position: "absolute",
+                left: 0,
+                top: 0,
+                bottom: 0,
+                background: "rgba(255,255,255,0.25)",
+                width: `${pct}%`,
+                transition: "width 0.3s ease"
+              }}
+            />
           )}
-          <MdDownload size={18} />
-          {isRunning ? `Generating ${pct}%…` : 'Generate CSV'}
-        </button>
-        {isRunning && (
-          <div style={{ height: 3, background: '#E5E7EB', borderRadius: 2, marginTop: 6, overflow: 'hidden' }}>
-            <div style={{ height: '100%', background: '#00C9A7', width: `${pct}%`, transition: 'width 0.3s' }} />
-          </div>
-        )}
-      </div>
-    );
-  };
 
+          <MdDownload size={18} />
+          {isRunning ? `${pct}%` : "Generate Report"}
+        </button>
+
+        {/* Email Report */}
+        <button
+          onClick={onEmailClick}
+          disabled={isRunning}
+          style={{
+            flex: 1,
+            background: "#00C9A7",
+            color: "#fff",
+            border: "none",
+            borderRadius: 24,
+            padding: "12px",
+            fontSize: 14,
+            fontWeight: 700,
+            cursor: isRunning ? "default" : "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8
+          }}
+        >
+          📧 Email Report
+        </button>
+      </div>
+
+      {/* Progress Bar */}
+      {isRunning && (
+        <div
+          style={{
+            height: 3,
+            background: "#E5E7EB",
+            borderRadius: 2,
+            marginTop: 8,
+            overflow: "hidden"
+          }}
+        >
+          <div
+            style={{
+              height: "100%",
+              background: "#00C9A7",
+              width: `${pct}%`,
+              transition: "width 0.3s"
+            }}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
   // ─── date pair ──────────────────────────────────────────────────────────
   const DateRow = ({ from, setFrom, to, setTo }) => (
     <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', marginBottom: 16 }}>

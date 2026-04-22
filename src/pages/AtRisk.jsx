@@ -36,31 +36,44 @@ export default function AtRisk() {
               <tr>
                 <th style={{ padding: '16px 24px', width: 48 }}><input type="checkbox" style={{ accentColor: '#00C9A7', width: 16, height: 16 }} /></th>
                 <th style={{ padding: '16px 8px', fontSize: 13, fontWeight: 600, color: '#4B5563' }}>Name</th>
-                <th style={{ padding: '16px 8px', fontSize: 13, fontWeight: 600, color: '#4B5563', textAlign: 'center' }}>SpO2 &gt; 90%</th>
-                <th style={{ padding: '16px 8px', fontSize: 13, fontWeight: 600, color: '#4B5563', textAlign: 'center' }}>Heart Rate &lt; 120 bpm</th>
-                <th style={{ padding: '16px 8px', fontSize: 13, fontWeight: 600, color: '#4B5563', textAlign: 'center' }}>Risk-Status</th>
-                <th style={{ padding: '16px 24px', fontSize: 13, fontWeight: 600, color: '#4B5563', textAlign: 'center' }}>Actions</th>
+                <th style={{ padding: '16px 8px', fontSize: 13, fontWeight: 600, color: '#4B5563' }}>Program</th>
+                <th style={{ padding: '16px 8px', fontSize: 13, fontWeight: 600, color: '#4B5563', textAlign: 'center' }}>Vital flag</th>
+                <th style={{ padding: '16px 8px', fontSize: 13, fontWeight: 600, color: '#4B5563', textAlign: 'center' }}>Reading</th>
+                <th style={{ padding: '16px 8px', fontSize: 13, fontWeight: 600, color: '#4B5563', textAlign: 'center' }}>When</th>
+                <th style={{ padding: '16px 8px', fontSize: 13, fontWeight: 600, color: '#4B5563', textAlign: 'center' }}>Status</th>
+                <th style={{ padding: '16px 24px', fontSize: 13, fontWeight: 600, color: '#4B5563', textAlign: 'center' }}></th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={6} style={{ padding: 40, textAlign: 'center', color: '#9CA3AF' }}>Loading users...</td></tr>
+                <tr><td colSpan={7} style={{ padding: 40, textAlign: 'center', color: '#9CA3AF' }}>Loading users...</td></tr>
               ) : data.length === 0 ? (
-                <tr><td colSpan={6} style={{ padding: 40, textAlign: 'center', color: '#9CA3AF' }}>No at-risk users found.</td></tr>
-              ) : data.map((user, i) => (
+                <tr><td colSpan={7} style={{ padding: 40, textAlign: 'center', color: '#9CA3AF' }}>No at-risk users found.</td></tr>
+              ) : data.map((user, i) => {
+                // Compute rough 'when' relative string
+                let whenStr = '';
+                if (user.latest_alertDate) {
+                  const diffH = Math.floor((new Date() - new Date(user.latest_alertDate)) / (1000 * 60 * 60));
+                  whenStr = diffH > 24 ? `${Math.floor(diffH/24)}d Ago` : `${diffH}h Ago`;
+                }
+                return (
                 <tr key={user.user_id || i} style={{ borderBottom: '1px solid #F3F4F6' }}>
                   <td style={{ padding: '16px 24px' }}>
                     <div style={{ width: 24, height: 24, borderRadius: 6, border: '1px solid #D1D5DB', display: 'flex', alignItems: 'center', justifyContent: 'center' }}></div>
                   </td>
                   <td style={{ padding: '16px 8px', fontSize: 14, fontWeight: 500, color: '#111827' }}>{user.name}</td>
-                  <td style={{ padding: '16px 8px', textAlign: 'center' }}>
-                    <span style={{ background: '#FFF0F0', color: '#FF5C5C', fontWeight: 600, fontSize: 13, padding: '6px 20px', borderRadius: 20 }}>{user.spo2}</span>
+                  <td style={{ padding: '16px 8px', fontSize: 13, color: '#4B5563' }}>{user.program}</td>
+                  <td style={{ padding: '16px 8px', textAlign: 'center', textTransform: 'capitalize' }}>
+                    <span style={{ fontWeight: 600, fontSize: 13, color: '#111827' }}>{user.vital === 'heart_rate' ? 'Heart Rate' : user.vital.replace('_',' ')}</span>
                   </td>
                   <td style={{ padding: '16px 8px', textAlign: 'center' }}>
-                    <span style={{ background: '#FFF0F0', color: '#FF5C5C', fontWeight: 600, fontSize: 13, padding: '6px 20px', borderRadius: 20 }}>{user.heart_rate}</span>
+                    <span style={{ fontSize: 13, color: '#4B5563' }}>{user.reading}</span>
                   </td>
                   <td style={{ padding: '16px 8px', textAlign: 'center' }}>
-                    <span style={{ color: '#FF5C5C', fontWeight: 600, fontSize: 14 }}>{user.risk_status}</span>
+                    <span style={{ fontSize: 13, color: '#4B5563' }}>{whenStr || 'Just now'}</span>
+                  </td>
+                  <td style={{ padding: '16px 8px', textAlign: 'center' }}>
+                    <span style={{ background: '#FFF0F0', color: '#FF5C5C', fontWeight: 600, fontSize: 13, padding: '6px 16px', borderRadius: 20 }}>Critical</span>
                   </td>
                   <td style={{ padding: '16px 24px', textAlign: 'center' }}>
                     <button
@@ -73,7 +86,8 @@ export default function AtRisk() {
                     </button>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -85,8 +99,8 @@ export default function AtRisk() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <button style={{ width: 28, height: 28, borderRadius: '50%', border: 'none', background: 'none', cursor: 'pointer', color: '#9CA3AF' }}>‹</button>
               <button style={{ width: 28, height: 28, borderRadius: '50%', border: 'none', background: '#00C9A7', color: '#fff', cursor: 'pointer', fontWeight: 600, fontSize: 12 }}>1</button>
-              <button style={{ width: 28, height: 28, borderRadius: '50%', border: 'none', background: 'none', cursor: 'pointer', color: '#4B5563', fontSize: 12 }}>2</button>
-              <button style={{ width: 28, height: 28, borderRadius: '50%', border: 'none', background: 'none', cursor: 'pointer', color: '#4B5563', fontSize: 12 }}>3</button>
+              {/* <button style={{ width: 28, height: 28, borderRadius: '50%', border: 'none', background: 'none', cursor: 'pointer', color: '#4B5563', fontSize: 12 }}>2</button>
+              <button style={{ width: 28, height: 28, borderRadius: '50%', border: 'none', background: 'none', cursor: 'pointer', color: '#4B5563', fontSize: 12 }}>3</button> */}
               <button style={{ width: 28, height: 28, borderRadius: '50%', border: 'none', background: 'none', cursor: 'pointer', color: '#9CA3AF' }}>›</button>
             </div>
           </div>

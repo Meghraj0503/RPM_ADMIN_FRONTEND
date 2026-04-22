@@ -97,13 +97,21 @@ export default function Articles() {
                 <td style={{ padding: '12px', textAlign: 'center', color: '#6B7280' }}>{a.estimated_read_time || 0} min</td>
                 <td style={{ padding: '12px', textAlign: 'center' }}>
                   <span 
-                    onClick={() => togglePublish(a)}
-                    style={{ background: a.is_published ? '#E8FBF7' : '#F3F4F6', color: a.is_published ? '#00C9A7' : '#9CA3AF', borderRadius: 20, padding: '4px 14px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
-                    {a.is_published ? 'Published' : 'Draft'}
+                    onClick={a.publish_status === 'scheduled' ? undefined : () => togglePublish(a)}
+                    style={{ 
+                      background: a.publish_status === 'scheduled' ? '#FFEABD' : a.is_published ? '#E8FBF7' : '#F3F4F6', 
+                      color: a.publish_status === 'scheduled' ? '#FF9F43' : a.is_published ? '#00C9A7' : '#9CA3AF', 
+                      borderRadius: 20, padding: '4px 14px', fontSize: 12, fontWeight: 600, cursor: a.publish_status === 'scheduled' ? 'default' : 'pointer' 
+                    }}>
+                    {a.publish_status === 'scheduled' ? 'Scheduled' : a.is_published ? 'Published' : 'Draft'}
                   </span>
                 </td>
                 <td style={{ padding: '12px', textAlign: 'center', color: '#6B7280' }}>
-                  {a.published_at ? new Date(a.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—'}
+                  {a.publish_status === 'scheduled' && a.scheduled_publish_at 
+                    ? `Sched: ${new Date(a.scheduled_publish_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' , year: 'numeric'})}` 
+                    : a.published_at 
+                      ? new Date(a.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) 
+                      : '—'}
                 </td>
                 <td style={{ padding: '12px', textAlign: 'center', color: '#6B7280' }}>
                   <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>

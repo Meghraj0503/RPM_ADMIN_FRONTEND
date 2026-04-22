@@ -59,7 +59,7 @@ export default function Users() {
   };
 
   const getLastActiveDetails = (dateStr) => {
-    if (!dateStr) return { text: 'Unknown', bg: '#F3F4F6', color: '#6B7280' };
+    if (!dateStr) return { text: '-', bg: '#F3F4F6', color: '#6B7280' };
     const date = new Date(dateStr);
     const diffHours = (new Date() - date) / (1000 * 60 * 60);
     if (diffHours < 24) return { text: 'Today', bg: '#FFF0F0', color: '#FF5C5C' };
@@ -67,10 +67,13 @@ export default function Users() {
     return { text: `${Math.floor(diffHours/24)} days ago`, bg: '#F3F4F6', color: '#6B7280' };
   };
 
-  const getQStatusFmt = (qStatus) => {
-    if (!qStatus) return { text: '1/4', color: '#FF5C5C' };
-    if (qStatus === 'Completed') return { text: '4/4', color: '#00C9A7' };
-    return { text: '3/4', color: '#FFB020' };
+  const getQStatusFmt = (userQs) => {
+    if (!userQs || userQs.length === 0) return { text: '0/0', color: '#9CA3AF' };
+    const completed = userQs.filter(q => q.status === 'Completed').length;
+    const total = userQs.length;
+    if (completed === total) return { text: `${completed}/${total}`, color: '#00C9A7' };
+    if (completed === 0) return { text: `0/${total}`, color: '#FF5C5C' };
+    return { text: `${completed}/${total}`, color: '#FFB020' };
   };
 
   return (
@@ -138,7 +141,7 @@ export default function Users() {
             ) : users.map(u => {
               const latestQ = u.user_questionnaires?.[0];
               const act = getLastActiveDetails(u.last_login_at);
-              const qs  = getQStatusFmt(latestQ?.status);
+              const qs  = getQStatusFmt(u.user_questionnaires);
               
               return (
                 <tr key={u.id} style={{ borderBottom: '1px solid #F9FAFB' }}>
