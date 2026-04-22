@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
-  BarChart, Bar, XAxis, YAxis, LineChart, Line, CartesianGrid,
+  BarChart, Bar, XAxis, YAxis, LineChart, Line, CartesianGrid, LabelList,
   AreaChart, Area
 } from 'recharts';
 import { getCohortDashboard, getAtRiskUsers, exportData } from '../api/admin';
@@ -698,6 +698,102 @@ function AtRiskMonitoring({ list = [], breakdown = [] }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   TAB: Questionnaire Performance
+════════════════════════════════════════════════════════════════ */
+function QuestionnairePerformance({ data }) {
+  const completedToday = data?.completed_today || 0;
+  const overdue = data?.overdue || 0;
+  const compRate = data?.completion_rate || 0;
+  
+  // Provide fallback structure as per UI constraints to ensure chart renders if empty
+  const byTypeData = data?.by_type?.length > 0 ? data.by_type : [
+    { name: 'PHQ-9 (Mood)', value: 0 },
+    { name: 'Sleep Quality Index', value: 0 },
+    { name: 'Activity Check', value: 0 },
+    { name: 'Nutrition Assessment', value: 0 },
+  ];
+  
+  const domainData = data?.domain_scores?.length > 0 ? data.domain_scores : [
+    { domain: 'Mood & affect', score: 0 },
+    { domain: 'Sleep Quality', score: 0 },
+    { domain: 'Energy levels', score: 0 },
+    { domain: 'Focus & cognition', score: 0 },
+  ];
+
+  const CustomYAxisTick = ({ x, y, payload }) => (
+    <text x={x} y={y} dy={4} textAnchor="end" fill="#1A1D23" fontSize={11} fontWeight={500}>
+      {payload.value}
+    </text>
+  );
+
+  return (
+    <div>
+      <div style={{ background:'#E8FBF7', borderRadius:10, padding:'8px 14px', marginBottom:16 }}>
+        <SectionBanner label="Questionnaire Performance" sub="Program Progress and mental health domain tracking" />
+      </div>
+
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:20 }}>
+        
+        {/* Left: Completion Rate */}
+        <div style={{ border:'1px solid #E5E7EB', borderRadius:14, padding:24, background:'#fff' }}>
+          <div style={{ fontWeight:600, fontSize:15, marginBottom:2 }}>Completion Rate - by questionnaire type</div>
+          <div style={{ fontSize:12, color:'#6B7280', marginBottom:20 }}>All Programs | Current enrollment period</div>
+
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:12, marginBottom:24 }}>
+            <div style={{ background:'#E0E7FF', borderRadius:10, padding:'12px 16px' }}>
+              <div style={{ fontSize:11, color:'#111', fontWeight:500, marginBottom:4 }}>Completed today</div>
+              <div style={{ fontSize:18, fontWeight:700, color:'#1A1D23' }}>{completedToday}</div>
+            </div>
+            <div style={{ background:'#FFE4E6', borderRadius:10, padding:'12px 16px' }}>
+              <div style={{ fontSize:11, color:'#111', fontWeight:500, marginBottom:4 }}>Overdue</div>
+              <div style={{ fontSize:18, fontWeight:700, color:'#E11D48' }}>{overdue}</div>
+            </div>
+            <div style={{ background:'#E0FBF5', borderRadius:10, padding:'12px 16px' }}>
+              <div style={{ fontSize:11, color:'#111', fontWeight:500, marginBottom:4 }}>Overall rate</div>
+              <div style={{ fontSize:18, fontWeight:700, color:'#00C9A7' }}>{compRate}%</div>
+            </div>
+          </div>
+
+          <div style={{ height: 260 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart layout="vertical" data={byTypeData} margin={{ top: 0, right: 60, left: 20, bottom: 0 }} barCategoryGap={16}>
+                <XAxis type="number" hide />
+                <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={<CustomYAxisTick />} width={140} />
+                <Tooltip cursor={{fill: '#F9FAFB'}} />
+                <Bar dataKey="value" fill="#00C9A7" radius={[0, 4, 4, 0]} barSize={12} background={{ fill: '#F3F4F6', radius: [0, 4, 4, 0] }}>
+                  <LabelList dataKey="value" position="right" formatter={(v) => `${v} users`} style={{ fontSize: 11, fill: '#6B7280', fontWeight: 500 }} />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Right: Domain scores */}
+        <div style={{ border:'1px solid #E5E7EB', borderRadius:14, padding:24, background:'#fff' }}>
+          <div style={{ fontWeight:600, fontSize:15, marginBottom:2 }}>Average domain score-cohort (PHQ-9)</div>
+          <div style={{ fontSize:12, color:'#6B7280', marginBottom:20 }}>Lower score = better on PHQ-9 Scale | Avg overall : 71.2 / 100</div>
+
+          <div style={{ height: 320 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={domainData} margin={{ top: 30, right: 10, left: -20, bottom: 0 }} barCategoryGap={35}>
+                <CartesianGrid vertical={false} stroke="#E5E7EB" strokeDasharray="4 4" />
+                <XAxis dataKey="domain" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#6B7280' }} dy={10} />
+                <YAxis type="number" domain={[0, 100]} ticks={[0,10,20,30,40,50,60,70,80,90,100]} axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#9CA3AF' }} />
+                <Tooltip cursor={{fill: '#F9FAFB'}} />
+                <Bar dataKey="score" fill="#00C9A7" radius={[6, 6, 0, 0]} barSize={42}>
+                  <LabelList dataKey="score" position="top" style={{ fontSize: 15, fontWeight: 700, fill: '#1A1D23' }} dy={-6} />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
    TAB: Daily Active Users  (brand new)
 ════════════════════════════════════════════════════════════════ */
 function DailyActiveUsers({ dauTrend = [] }) {
@@ -800,9 +896,11 @@ export default function Dashboard() {
   useEffect(()=>{
     Promise.all([getCohortDashboard(), getAtRiskUsers()])
       .then(([d, a])=> { setStats(d.data); setAtRisk(a.data.at_risk_users || []); })
-      .catch((e)=> { console.error('Dashboard Data Error', e); setStats({
-        top_level: { total_enrolled_users: 1284, active_users_7d: 187, active_alerts: 23, average_program_score: 71.2 }
-      }); })
+      .catch((e)=> { console.error('Dashboard Data Error', e); 
+      //   setStats({
+      //   top_level: { total_enrolled_users: 1284, active_users_7d: 187, active_alerts: 23, average_program_score: 71.2 }
+      // }); 
+    })
       .finally(()=> setLoading(false));
   }, []);
 
@@ -878,7 +976,7 @@ export default function Dashboard() {
             </div>
           )}
           {activeTab === 'physical'      && <PhysicalActivityMetrics data={stats?.physical_activity} />}
-          {activeTab === 'questionnaire' && <DailyActiveUsers />}
+          {activeTab === 'questionnaire' && <QuestionnairePerformance data={stats?.questionnaires || {}} />}
           {activeTab === 'enrollment'    && <ProgramEnrollment data={stats?.enrollment} topStats={stats?.top_level} />}
           {activeTab === 'education'     && <EducationHub data={stats?.education} />}
           {activeTab === 'at_risk'       && <AtRiskMonitoring list={atRisk} breakdown={stats?.at_risk_breakdown} />}
