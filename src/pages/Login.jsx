@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3006';
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://43.204.30.135:3006';
+const BASE_URL = 'http://43.204.30.135:3006' || import.meta.env.VITE_API_BASE_URL ;
 export default function Login() {
   const [email,    setEmail]    = useState('');
   const [password, setPassword] = useState('');
