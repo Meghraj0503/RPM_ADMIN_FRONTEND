@@ -89,6 +89,7 @@ export default function ExportData() {
   // ── loading / progress per card
   const [gen, setGen]         = useState({ vitals: false, questionnaires: false, summary: false });
   const [prog, setProg]       = useState({ vitals: 0, questionnaires: 0, summary: 0 });
+  const [downloadUrl, setDownloadUrl] = useState({ vitals: null, questionnaires: null, summary: null });
 
   // ── history
   const [history, setHistory] = useState([]);
@@ -116,11 +117,11 @@ export default function ExportData() {
   const handleGenerate = async (type, payload) => {
     setGen(g => ({ ...g, [type]: true }));
     setProg(p => ({ ...p, [type]: 0 }));
+    setDownloadUrl(d => ({ ...d, [type]: null }));
 
-    // Animate to ~80% before waiting for the API
     let fakeP = 0;
     const iv = setInterval(() => {
-      fakeP = Math.min(fakeP + 20, 80);
+      fakeP = Math.min(fakeP + 15, 80);
       setProg(p => ({ ...p, [type]: fakeP }));
       if (fakeP >= 80) clearInterval(iv);
     }, 300);
@@ -131,24 +132,26 @@ export default function ExportData() {
       setProg(p => ({ ...p, [type]: 100 }));
 
       const url = window.URL.createObjectURL(new Blob([res.data], { type: 'text/csv' }));
-      const a   = document.createElement('a');
-      a.href    = url;
-      a.download = `${type}_${new Date().toISOString().split('T')[0]}.csv`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-
-      // Refresh history
+      
       setTimeout(() => {
+        setDownloadUrl(d => ({ ...d, [type]: url }));
         loadHistory();
-        setGen(g => ({ ...g, [type]: false }));
-        setProg(p => ({ ...p, [type]: 0 }));
-      }, 800);
+      }, 500);
+
     } catch (err) {
       clearInterval(iv);
       alert('Export failed. Please try again.');
       setGen(g => ({ ...g, [type]: false }));
       setProg(p => ({ ...p, [type]: 0 }));
     }
+  };
+
+  const clearDownload = (type) => {
+    setTimeout(() => {
+      setGen(g => ({ ...g, [type]: false }));
+      setProg(p => ({ ...p, [type]: 0 }));
+      setDownloadUrl(d => ({ ...d, [type]: null }));
+    }, 1000);
   };
 
   // ─── shared card chrome ─────────────────────────────────────────────────
@@ -196,109 +199,72 @@ export default function ExportData() {
   //     </div>
   //   );
   // };
-const GenerateBtn = ({ type, onClick, onEmailClick }) => {
-  const isRunning = gen[type];
-  const pct = prog[type];
+  const GenerateBtn = ({ type, onClick }) => {
+    const isRunning = gen[type];
+    const pct = prog[type];
+    const isReady = !!downloadUrl[type];
 
-  return (
-    <div style={{ marginTop: "auto" }}>
-      
-      {/* Buttons Row */}
-      <div
-        style={{
-          display: "flex",
-          gap: 10,
-          marginTop: 10
-        }}
-      >
-        {/* Generate Report */}
+    const formatFileName = () => {
+      const date = new Date().toLocaleString('en-US', { month: 'short', year: 'numeric' });
+      if (type === 'vitals') return `Vitals_${date.replace(/ /g, '')}.csv`;
+      if (type === 'questionnaires') return `Que_${date.replace(/ /g, '')}.csv`;
+      return `Program_${date.replace(/ /g, '')}.csv`;
+    };
+
+    if (isReady) {
+      return (
+        <div style={{ marginTop: 'auto', textAlign: 'center' }}>
+          <a
+            href={downloadUrl[type]}
+            download={formatFileName()}
+            onClick={() => clearDownload(type)}
+            style={{
+              display: 'flex', width: '100%', background: '#09825d', color: '#fff', border: 'none',
+              borderRadius: 24, padding: '12px', fontSize: 13, fontWeight: 700,
+              textDecoration: 'none', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 12
+            }}
+          >
+            <MdDownload size={18} /> Download {formatFileName().replace('.csv', '')}
+          </a>
+          <a href="#" onClick={(e) => { e.preventDefault(); 
+             }} style={{ fontSize: 13, color: '#00C9A7', fontWeight: 600, textDecoration: 'none' }}>
+            Send to Mail ID
+          </a>
+        </div>
+      );
+    }
+
+    return (
+      <div style={{ marginTop: 'auto' }}>
         <button
           onClick={onClick}
           disabled={isRunning}
           style={{
-            flex: 1,
-            background: "#00C9A7",
-            color: "#fff",
-            border: "none",
-            borderRadius: 24,
-            padding: "12px",
-            fontSize: 14,
-            fontWeight: 700,
-            cursor: isRunning ? "default" : "pointer",
-            position: "relative",
-            overflow: "hidden",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8
+            width: '100%', background: '#55EFC4', color: '#111', border: 'none',
+            borderRadius: 24, padding: '12px', fontSize: 14, fontWeight: 700,
+            cursor: isRunning ? 'default' : 'pointer',
+            position: 'relative', overflow: 'hidden', display: 'flex',
+            alignItems: 'center', justifyContent: 'center', gap: 8
           }}
         >
+          {isRunning ? `Generating ${pct}%` : <><MdDownload size={18} /> Generate CSV</>}
           {isRunning && (
-            <div
-              style={{
-                position: "absolute",
-                left: 0,
-                top: 0,
-                bottom: 0,
-                background: "rgba(255,255,255,0.25)",
-                width: `${pct}%`,
-                transition: "width 0.3s ease"
-              }}
-            />
+            <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, background: 'rgba(255,255,255,0.4)', width: `${pct}%`, transition: 'width 0.3s' }} />
           )}
-
-          <MdDownload size={18} />
-          {isRunning ? `${pct}%` : "Generate Report"}
         </button>
-
-        {/* Email Report */}
-        <button
-          onClick={onEmailClick}
-          disabled={isRunning}
-          style={{
-            flex: 1,
-            background: "#00C9A7",
-            color: "#fff",
-            border: "none",
-            borderRadius: 24,
-            padding: "12px",
-            fontSize: 14,
-            fontWeight: 700,
-            cursor: isRunning ? "default" : "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8
-          }}
-        >
-          📧 Email Report
-        </button>
+        {isRunning && (
+           <div style={{ marginTop: 12 }}>
+             <div style={{ height: 4, background: '#E5E7EB', borderRadius: 2, overflow: 'hidden', marginBottom: 6 }}>
+               <div style={{ height: '100%', background: '#00C9A7', width: `${pct}%`, transition: 'width 0.3s' }} />
+             </div>
+             <div style={{ fontSize: 11, color: '#9CA3AF', textAlign: 'left' }}>
+                Processing 94 of 248 users - Est. 28 seconds remaining
+             </div>
+           </div>
+        )}
       </div>
-
-      {/* Progress Bar */}
-      {isRunning && (
-        <div
-          style={{
-            height: 3,
-            background: "#E5E7EB",
-            borderRadius: 2,
-            marginTop: 8,
-            overflow: "hidden"
-          }}
-        >
-          <div
-            style={{
-              height: "100%",
-              background: "#00C9A7",
-              width: `${pct}%`,
-              transition: "width 0.3s"
-            }}
-          />
-        </div>
-      )}
-    </div>
-  );
-};
+    );
+  };
   // ─── date pair ──────────────────────────────────────────────────────────
   const DateRow = ({ from, setFrom, to, setTo }) => (
     <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', marginBottom: 16 }}>
