@@ -363,7 +363,7 @@ export default function UserDetail() {
                     <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#E8FBF7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00C9A7', fontSize: 18 }}><MdDirectionsRun /></div>
                     <div>
                       <div style={{ fontSize: 13, color: '#6B7280' }}>Height</div>
-                      <div style={{ fontSize: 24, fontWeight: 700 }}>{profile.height || '—'}<span style={{ fontSize: 14, color: '#9CA3AF', fontWeight: 500 }}> ft</span></div>
+                      <div style={{ fontSize: 24, fontWeight: 700 }}>{profile.height || '—'}<span style={{ fontSize: 14, color: '#9CA3AF', fontWeight: 500 }}> {profile?.height_unit || '—'}</span></div>
                     </div>
                   </div>
                   <div style={{ fontSize: 11, color: '#9CA3AF' }}>Normal height</div>
@@ -374,7 +374,7 @@ export default function UserDetail() {
                     <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#E8FBF7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00C9A7', fontSize: 18 }}><MdDirectionsRun /></div>
                     <div>
                       <div style={{ fontSize: 13, color: '#6B7280' }}>Weight</div>
-                      <div style={{ fontSize: 24, fontWeight: 700 }}>{profile.weight || '—'}<span style={{ fontSize: 14, color: '#9CA3AF', fontWeight: 500 }}> lbs</span></div>
+                      <div style={{ fontSize: 24, fontWeight: 700 }}>{profile.weight || '—'}<span style={{ fontSize: 14, color: '#9CA3AF', fontWeight: 500 }}> {profile?.weight_unit || '—'}</span></div>
                     </div>
                   </div>
                   <div style={{ fontSize: 11, color: '#9CA3AF' }}>Normal weight</div>
