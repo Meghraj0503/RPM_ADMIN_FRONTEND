@@ -259,10 +259,10 @@ export default function QuestionnaireAssign() {
                <div key={`hp-${u.id}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#FEE2E2', color: '#EF4444', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-                      {u.name.charAt(0)}
+                      {(u?.name || 'U').charAt(0)}
                     </div>
                     <div>
-                      <div style={{ fontSize: 14, fontWeight: 600, color: '#1A1D23' }}>{u.name}</div>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: '#1A1D23' }}>{u?.name || 'Unknown User'}</div>
                       <div style={{ fontSize: 11, color: '#6B7280' }}>Risk Indicator</div>
                     </div>
                   </div>
@@ -278,10 +278,10 @@ export default function QuestionnaireAssign() {
                <div key={`md-${u.id}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#E0E7FF', color: '#4338CA', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-                      {u.name.charAt(0)}
+                      {(u?.name || 'U').charAt(0)}
                     </div>
                     <div>
-                      <div style={{ fontSize: 14, fontWeight: 600, color: '#1A1D23' }}>{u.name}</div>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: '#1A1D23' }}>{u.name || 'Unknown User'}</div>
                       <div style={{ fontSize: 11, color: '#6B7280' }}>{u.program || 'Active Program'}</div>
                     </div>
                   </div>
@@ -296,9 +296,9 @@ export default function QuestionnaireAssign() {
                <div key={`all-${u.id}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#F3F4F6', color: '#4B5563', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-                      {u.name.charAt(0)}
+                      {(u?.name || 'U').charAt(0)}
                     </div>
-                    <div style={{ fontSize: 14, fontWeight: 500, color: '#1A1D23' }}>{u.name}</div>
+                    <div style={{ fontSize: 14, fontWeight: 500, color: '#1A1D23' }}>{u.name || 'Unknown User'}</div>
                   </div>
                   <input type="checkbox" style={{ cursor: 'pointer', width: 16, height: 16 }} checked={selectedIds.has(u.id)} onChange={() => toggleUser(u.id)} />
                </div>
