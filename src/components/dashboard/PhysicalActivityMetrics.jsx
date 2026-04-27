@@ -13,7 +13,7 @@ import {
 import SectionBanner from "./shared/SectionBanner";
 import MetricChip from "./shared/MetricChip";
 
-export default function PhysicalActivityMetrics({ data }) {
+export default function PhysicalActivityMetrics({ data, topStats }) {
   const stepsTrend = data?.steps_trend_7d || [];
   const stepsData = stepsTrend.map((d) => ({
     day: new Date(d.day).toLocaleDateString("en-US", { weekday: "short" }),
@@ -23,6 +23,7 @@ export default function PhysicalActivityMetrics({ data }) {
     ? Math.round(stepsData.reduce((a, c) => a + c.steps, 0) / stepsData.length)
     : 0;
 
+  const totalUsers = Number(topStats?.total_enrolled_users || 11);
   const calData = [
     {
       name: "At or above 350 kcal",
@@ -31,7 +32,7 @@ export default function PhysicalActivityMetrics({ data }) {
     },
     {
       name: "Below target",
-      value: Math.max(0, 11 - Number(data?.targeted_cal_users || 0)),
+      value: Math.max(0, totalUsers - Number(data?.targeted_cal_users || 0)),
       color: "#FFB020",
     },
   ];
