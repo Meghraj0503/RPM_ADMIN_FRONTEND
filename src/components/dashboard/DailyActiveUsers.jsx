@@ -11,20 +11,25 @@ import {
 import SectionBanner from "./shared/SectionBanner";
 import MetricChip from "./shared/MetricChip";
 
-export default function DailyActiveUsers() {
+export default function DailyActiveUsers({ dauTrend = [] }) {
   const [period, setPeriod] = useState("30");
 
-  const dauData = Array.from({ length: 30 }, (_, i) => ({
-    day: `Day ${i + 1}`,
-    dau: 580 + Math.round(Math.sin(i / 4) * 80 + i * 8 + Math.random() * 40),
+  const filteredTrend = dauTrend.slice(-Number(period));
+  const dauData = filteredTrend.map(d => ({
+    day: new Date(d.day).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+    dau: Number(d.dau)
   }));
-  dauData[29].dau = 847;
+  
+  const todayDau = dauData.length ? dauData[dauData.length - 1].dau : 0;
+  const avgDau = dauData.length ? Math.round(dauData.reduce((acc, curr) => acc + curr.dau, 0) / dauData.length) : 0;
+  const startDau = dauData.length ? dauData[0].dau : 0;
+  const growth = startDau > 0 ? (((todayDau - startDau) / startDau) * 100).toFixed(1) : 0;
 
   const metrics = [
-    { label: "DAU today", value: "847", color: "blue" },
-    { label: "Avg DAU (30d)", value: "712", color: "green" },
-    { label: "Growth (30d)", value: "+18.9%", color: "green" },
-    { label: "DAU / total enrolled", value: "66%", color: "blue" },
+    { label: "DAU today", value: todayDau.toString(), color: "blue" },
+    { label: `Avg DAU (${period}d)`, value: avgDau.toString(), color: "green" },
+    { label: `Growth (${period}d)`, value: `${growth > 0 ? '+' : ''}${growth}%`, color: growth > 0 ? "green" : "red" },
+    { label: "Trending", value: growth > 0 ? "Upward" : "Stable", color: "blue" },
   ];
 
   return (

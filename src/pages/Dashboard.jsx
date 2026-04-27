@@ -64,7 +64,7 @@ export default function Dashboard() {
   return (
     <div>
       <DashboardHeader onExport={handleExport} />
-      <DashboardStatCards stats={stats?.top_level} />
+      <DashboardStatCards stats={stats?.top_level} trends={stats?.top_level_trends} />
       <DashboardTabs tabs={TABS} activeTab={activeTab} onTabChange={setActiveTab} />
 
       {loading ? (
@@ -83,7 +83,7 @@ export default function Dashboard() {
             </div>
           )}
           {activeTab === "physical" && (
-            <PhysicalActivityMetrics data={stats?.physical_activity} />
+            <PhysicalActivityMetrics data={stats?.physical_activity} topStats={stats?.top_level} />
           )}
           {activeTab === "questionnaire" && (
             <QuestionnairePerformance data={stats?.questionnaires || {}} />

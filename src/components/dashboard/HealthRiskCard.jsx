@@ -96,7 +96,7 @@ export default function HealthRiskCard({ data }) {
         </div>
         <div className="card-subtitle">
           Recommended: <span className="safeRangeBr">7–9h/night</span> Avg sleep
-          quality score: <span>8.5/10</span>
+          quality score: <span>{data?.sleep?.cohort_avg_quality || "—"}/10</span>
         </div>
 
         <div className="chartChipsWrap">
@@ -148,7 +148,7 @@ export default function HealthRiskCard({ data }) {
               value={Number(data?.sleep?.critical_sleep_users || 0)}
               color="red"
             />
-            <MetricChip label="Avg quality score" value="8.5" color="blue" />
+            <MetricChip label="Avg quality score" value={data?.sleep?.cohort_avg_quality || "—"} color="blue" />
           </div>
         </div>
 
