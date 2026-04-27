@@ -1,0 +1,156 @@
+
+/* ── SECTION BANNER ─────────────────────────────────────── */
+.section-banner{display:flex;align-items:center;gap:8px;margin:0;border-radius:20px;padding:10px 10px 50px;width:100%;}
+.section-banner__badge{display:inline-flex;align-items:center;gap:6px;border-radius:20px;padding:4px 12px 4px 8px;font-weight:700;font-size:13px}
+.section-banner__dot{width:20px;height:20px;border-radius:50%;display:inline-block;background-color:#e5e7eb;}
+.section-banner__sub{font-size:12px;color:#FF4545;background-color:#FFE2E2;border-radius:30px;font-weight:400;padding:4px 18px;}
+
+/* ── METRIC CHIP ─────────────────────────────────────────── */
+.metric-chip{padding:6px 14px;font-size:13px;font-weight:600;max-width:140px;width:100%;}
+.metric-chip.rightRadius{border-radius:8px 0 0 8px;}
+.metric-chip.leftRadius{border-radius:0 8px 8px 0;}
+.metric-chip__label{font-size:11px;color:#000000;margin-bottom:4px;font-weight:300;}
+.metric-chip__value{font-weight:600;font-size:16px;display:inline-block}
+
+/* ── HBAR ────────────────────────────────────────────────── */
+.hbar{margin-bottom:14px}
+.hbar__header{display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px}
+.hbar__label{display:flex;align-items:center;gap:6px;color:#6E6E6E;font-size:12px;font-weight:300;}
+.hbar__value{font-weight:300;color:#000000;}
+.hbar__track{background:#e5e7eb;border-radius:6px;height:8px}
+.hbar__fill{border-radius:6px;height:8px}
+
+/* ── CATEGORY DONUT ──────────────────────────────────────── */
+.category-donut{text-align:center}
+.category-donut__value{font-weight:700;color:#1a1d23}
+.category-donut__label{font-size:11px;color:#6b7280;display:flex;align-items:center;justify-content:center;gap:4px}
+
+/* ── CARD CONTAINERS ─────────────────────────────────────── */
+/* Standalone white card (used in grid tabs) */
+.metric-card{border-radius:14px;flex:1;background:#fff;border:1px solid var(--border);padding:20px}
+/* Outer wrapper for health-alert cards (banner + sectionBoddy overlay pattern) */
+.alert-card-wrap{border-radius:20px;flex:1;overflow:hidden}
+
+.sectionBoddy{background:#fff;padding:20px;border-radius:20px;margin:-40px 0 0;position:relative;z-index:2;}
+.sectionBoddyPhMet{padding:0;gap:0;border:0;}
+.sectionBoddyPhMet .metric-card{border:0;}
+.sectionBoddy .chart-row .leftWrap{width:calc(100% - 240px);padding:0 30px 0 0;}
+.btmWrap{margin-top:10px}
+
+/* ── CARD TYPOGRAPHY ─────────────────────────────────────── */
+.card-title{font-weight:600;font-size:16px;margin-bottom:4px}
+.card-title--lg{font-size:15px}
+.card-subtitle{color:#6E6E6E;font-size:12px;font-weight:300;margin-bottom:14px}
+.card-subtitle span{color:#000000;font-weight:500;}
+.card-subtitle span.safeRangeBr{position:relative;display:inline-block;padding:0 6px 0 0;margin:0 6px 0 0;}
+.card-subtitle span.safeRangeBr:after{content:"";width:1px;height:10px;background-color:#6e6e6e5c;position:absolute;top:50%;transform:translateY(-50%);right:-3px;}
+.card-subtitle--sm-mb{margin-bottom:10px}
+.card-subtitle--no-mb{margin-bottom:0}
+.card-section-title{font-weight:600;font-size:13px;margin-bottom:10px}
+
+/* ── CHIP ROW ────────────────────────────────────────────── */
+.chip-row{display:flex;gap:0;margin-bottom:16px}
+.chip-row--mt{margin-top:10px}
+.chip-row--mb-lg{margin-bottom:20px}
+.chip-row--mb-xl{margin-bottom:24px}
+
+/* ── CHART LAYOUT ────────────────────────────────────────── */
+.chart-row{display:flex;align-items:center;gap:16px}
+.chart-col{flex:1}
+.spo2-chart-wrap{width:100%;max-width:230px;height:230px}
+.hr-chart-wrap{width:100%;height:220px}
+.sleep-chart-wrap{width:84%;height:220px}
+
+/* ── ALERT NOTES ─────────────────────────────────────────── */
+.alert-note{border-top:1px solid #6E6E6E;padding:8px 0 0;margin:8px 0 0;font-size:11px;color:#000000;font-weight:300;}
+.alert-note--mb{margin-bottom:20px}
+.alert-note--mb-lg{margin-bottom:18px}
+.alert-highlight{color:#FF4545;font-weight:500}
+.alert-highlight--yellow{color:#ffb020;font-weight:600}
+
+/* ── SECTION HEADER ──────────────────────────────────────── */
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.section-header__title{font-weight:600;font-size:16px;color:#000000;}
+.section-header__caret{font-size:10px;color:#9ca3af}
+.hrv-avg-label{font-weight:600;font-size:11px;color:#6b7280;margin-bottom:4px}
+
+/* ── SECTION BANNER WRAP ─────────────────────────────────── */
+.section-banner-wrap{background:#e8fbf7;border-radius:10px;padding:8px 14px;margin-bottom:16px;display:flex;align-items:center}
+.section-banner-wrap--red{background:#fff0f0}
+.section-banner-wrap--spaced{justify-content:space-between}
+.section-banner-wrap__inner{display:flex;align-items:center;gap:8px}
+.period-label{font-size:12px;color:#6b7280}
+
+/* ── GRIDS ───────────────────────────────────────────────── */
+.two-col-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-physical{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:20px}
+.grid-three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.grid-education{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
+.grid-at-risk{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
+
+/* ── CARD LEGEND ─────────────────────────────────────────── */
+.card-legend{margin-top:12px}
+.legend-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;font-size:12px}
+.legend-dot-label{display:flex;align-items:center;gap:8px}
+.legend-dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0}
+.legend-value{font-weight:600}
+
+/* ── GAUGE ───────────────────────────────────────────────── */
+.gauge-label{text-align:center;font-size:12px;color:#6b7280;margin-bottom:4px}
+.gauge-scale{display:flex;justify-content:space-between;font-size:11px;color:#6b7280;margin-top:-10px}
+
+/* ── EDUCATION HUB ───────────────────────────────────────── */
+.donut-row{display:flex;justify-content:space-around;margin-bottom:8px}
+.donut-row--centered{justify-content:center;gap:60px;margin-top:8px;margin-bottom:0}
+.article-row{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid #f3f4f6}
+.article-icon-wrap{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:8px;background:#f3f4f6;margin-right:12px;flex-shrink:0}
+.article-title{flex:1;font-size:13px;font-weight:500}
+.article-stat{font-size:12px;color:#6b7280;display:flex;align-items:center;gap:4px}
+.article-stat--mr{margin-right:14px}
+
+/* ── AT-RISK TABLE ───────────────────────────────────────── */
+.table-overflow{overflow-x:auto}
+.at-risk-table{width:100%;border-collapse:collapse;font-size:13px}
+.table-header-row{border-bottom:1px solid #f3f4f6}
+.table-th{padding:8px 10px;text-align:left;font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase}
+.table-row{border-bottom:1px solid #f9fafb}
+.table-td{padding:11px 10px}
+.table-td--bold{font-weight:500}
+.table-td--muted{color:#6b7280}
+.table-empty-cell{text-align:center;padding:20px;color:#6b7280}
+.badge-critical{background:#fff0f0;color:#ff5c5c;border-radius:20px;padding:3px 12px;font-weight:600;font-size:12px}
+.table-action{color:#9ca3af;cursor:pointer}
+.view-all-link{text-align:center;margin-top:14px;font-size:13px}
+.view-all-link a{color:#00c9a7;font-weight:600;text-decoration:none}
+.view-all-link--right{text-align:right;margin-top:12px;font-size:13px}
+.navigate-link{color:#00c9a7;font-weight:600;cursor:pointer;font-size:13px;background:none;border:none;padding:0;font-family:inherit}
+
+/* ── DAU ─────────────────────────────────────────────────── */
+.dau-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
+.period-toggle{display:flex;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden}
+.period-btn{padding:6px 14px;font-size:13px;border:none;cursor:pointer;font-family:inherit}
+.period-btn--active{background:#00C9A7;color:#fff;font-weight:600}
+.period-btn--inactive{background:#fff;color:#6b7280;font-weight:400}
+.dau-empty{text-align:center;padding:60px;color:#9ca3af}
+
+/* ── QUESTIONNAIRE ───────────────────────────────────────── */
+.quest-stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px}
+.quest-stat-card{border-radius:10px;padding:12px 16px}
+.quest-stat-card--blue{background:#E0E7FF}
+.quest-stat-card--red{background:#FFE4E6}
+.quest-stat-card--green{background:#E0FBF5}
+.quest-stat-label{font-size:11px;color:#111;font-weight:500;margin-bottom:4px}
+.quest-stat-value{font-size:18px;font-weight:700;color:var(--text-primary)}
+.quest-stat-value--red{color:#E11D48}
+.quest-stat-value--green{color:#00C9A7}
+.quest-chart-wrap{height:260px}
+.quest-domain-chart-wrap{height:320px}
+
+/* ── HEALTH RISK SLEEP CHART ─────────────────────────────── */
+.chartChipsWrap{display:flex;flex-flow:row wrap;align-items:center;justify-content:space-between;}
+.chartChipsWrap .chip-row{flex-flow:column;width:calc(100% - 85%);}
+.chartChipsWrap .chip-row .metric-chip{margin:3px 0;border-radius:8px;}
+
+/* ── EMPTY / FALLBACK STATES ─────────────────────────────── */
+.no-data-center{text-align:center;color:#9ca3af;padding:40px}
+.no-data-text{color:#9ca3af;font-size:13px}
