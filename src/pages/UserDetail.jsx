@@ -392,7 +392,7 @@ export default function UserDetail() {
                     {u.is_active ? 'Active' : 'Deactivated'}
                   </div>
                 </div>
-                <p style={{ fontSize: 13, color: '#6B7280', margin: '0 0 20px 0' }}>This user can log in to the AAYU mobile app and access their health program.</p>
+                <p style={{ fontSize: 13, color: '#6B7280', margin: '0 0 20px 0' }}>This user can log in to the PillNurse mobile app and access their health program.</p>
                 <button onClick={() => toggleStatus(!u.is_active)} style={{ background: u.is_active ? '#FFF0F0' : '#E8FBF7', color: u.is_active ? '#FF5C5C' : '#00C9A7', border: 'none', borderRadius: 20, padding: '8px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
                   <span style={{ width: 8, height: 8, borderRadius: '50%', background: u.is_active ? '#FF5C5C' : '#00C9A7' }}></span>
                   {u.is_active ? 'Deactivate Account' : 'Reactivate Account'}

@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3006';
-const BASE_URL = 'http://43.204.30.135:3006' || import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = 'https://adminrpm.pillnurse.com';
+// const BASE_URL = 'http://43.204.30.135:3006' || import.meta.env.VITE_API_BASE_URL;
 const api = axios.create({ baseURL: BASE_URL, timeout: 15000 });
 
 // Attach token to every request automatically

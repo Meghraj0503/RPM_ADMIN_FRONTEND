@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3006';
-const BASE_URL = 'http://43.204.30.135:3006' || import.meta.env.VITE_API_BASE_URL ;
+const BASE_URL = 'https://adminrpm.pillnurse.com';
+// const BASE_URL = 'http://43.204.30.135:3006' || import.meta.env.VITE_API_BASE_URL ;
 export default function Login() {
   const [email,    setEmail]    = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +45,7 @@ export default function Login() {
             borderRadius: 16, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 26, color: '#fff', fontWeight: 800, marginBottom: 12
           }}>A</div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, color: '#1A1D23', margin: 0 }}>AAYU Admin</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: '#1A1D23', margin: 0 }}>PillNurse Admin</h1>
           <p style={{ color: '#6B7280', fontSize: 14, marginTop: 4 }}>Sign in to your admin dashboard</p>
         </div>
 
@@ -60,7 +61,7 @@ export default function Login() {
                 borderRadius: 10, fontSize: 14, outline: 'none', fontFamily: 'inherit',
                 boxSizing: 'border-box', transition: 'border-color 0.2s'
               }}
-              placeholder="admin@aayu.health"
+              placeholder="admin@pillnurse.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onFocus={(e) => e.target.style.borderColor = '#00C9A7'}
@@ -116,7 +117,7 @@ export default function Login() {
         <div style={{ marginTop: 24, padding: '14px', background: '#F4F6F9', borderRadius: 10 }}>
           <p style={{ fontSize: 12, color: '#6B7280', margin: 0, fontWeight: 600 }}>Default Credentials</p>
           <p style={{ fontSize: 12, color: '#374151', margin: '4px 0 0' }}>
-            📧 admin@aayu.health &nbsp;|&nbsp; 🔑 Admin@123
+            📧 admin@pillnurse.com &nbsp;|&nbsp; 🔑 Admin@123
           </p>
         </div>
       </div>
