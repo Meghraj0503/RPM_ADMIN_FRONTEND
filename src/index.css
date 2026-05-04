@@ -98,7 +98,7 @@ body {   font-family: "DM Sans", sans-serif; background: var(--bg-main); color: 
 .avatar-dropdown-logout { color: #EF4444; }
 .avatar-dropdown-logout:hover { background: #FFF5F5; }
 
-.page-content { padding: 24px 28px; flex: 1; }
+.page-content { padding:12px 12px; flex: 1; }
 
 /* ======================== CARDS ======================== */
 .card { background: var(--bg-card); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }

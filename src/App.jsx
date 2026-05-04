@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HeaderProvider } from './contexts/HeaderContext';
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -13,6 +14,8 @@ import Questionnaires from './pages/Questionnaires';
 import QuestionnaireBuilder from './pages/QuestionnaireBuilder';
 import QuestionnaireAssign from './pages/QuestionnaireAssign';
 import './index.css';
+import './styles/main.css';
+import './styles/device.css';
 //need to change later — now using real email+password login
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem('adminToken');
@@ -22,6 +25,7 @@ function ProtectedRoute({ children }) {
 
 export default function App() {
   return (
+    <HeaderProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -50,5 +54,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
+    </HeaderProvider>
   );
 }

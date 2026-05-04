@@ -1,0 +1,326 @@
+/* ==========================================================
+   DEVICE.CSS — Responsive Media Queries Only
+   This file contains ONLY @media rules. No base styles here.
+
+   Breakpoints
+     Mobile  : max-width 768px
+     Tablet  : 769px to 1024px
+     Desktop : above 1024px  (min-width 1025px)
+   ========================================================== */
+
+
+/* ══════════════════════════════════════════════════════════
+   DESKTOP  (> 1024px)
+   ══════════════════════════════════════════════════════════ */
+@media (min-width: 1025px) {
+  /* Sidebar always visible — no slide animation needed */
+  .sidebar {
+    transform: none !important;
+  }
+
+  /* Overlay never needed on desktop */
+  .sidebar-overlay {
+    display: none !important;
+  }
+
+  /* Hamburger hidden — collapse button inside sidebar handles this */
+  .rl-header__hamburger {
+    display: none !important;
+  }
+
+  /* Brand in header hidden — logo lives in the sidebar */
+  .rl-header__brand {
+    display: none !important;
+  }
+
+  /* Close (X) button inside sidebar not relevant on desktop */
+  .sidebar-close-btn {
+    display: none !important;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   TABLET  (769px – 1024px)
+   ══════════════════════════════════════════════════════════ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Sidebar hidden off-screen by default */
+  .sidebar {
+    transform: translateX(-100%);
+    width: 240px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Sidebar slides in when parent has --mobile-open modifier */
+  .app-layout--mobile-open .sidebar {
+    transform: translateX(0);
+  }
+
+  /* Do NOT apply collapsed width on tablet — full or hidden */
+  .sidebar--collapsed {
+    width: 240px;
+  }
+
+  /* Overlay backdrop appears when sidebar is open */
+  .app-layout--mobile-open .sidebar-overlay {
+    display: block;
+  }
+
+  /* Main content takes full width — sidebar is an overlay */
+  .main-content,
+  .main-content--collapsed {
+    margin-left: 0;
+  }
+
+  /* Show hamburger in header */
+  .rl-header__hamburger {
+    display: flex;
+  }
+
+  /* Show brand in header (sidebar might be hidden) */
+  .rl-header__brand {
+    display: flex;
+  }
+
+  /* Show close (X) button inside sidebar */
+  .sidebar-close-btn {
+    display: flex;
+  }
+
+  /* Hide desktop collapse toggle on tablet */
+  .sidebar-toggle {
+    display: none;
+  }
+
+  /* Hide ud-header action buttons on tablet when inside the topbar */
+  .ud-header--in-topbar .ud-header-right { display: none; }
+
+  /* ── Dashboard demo grids ── */
+  .dash-demo-stat-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .dash-demo-mid-grid,
+  .dash-demo-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── Existing dashboard page grids ── */
+  .stat-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid-3,
+  .two-col-grid,
+  .grid-physical,
+  .grid-education,
+  .grid-at-risk {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .quest-stat-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .page-content {
+    padding: 20px;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE  (≤ 768px)
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Sidebar as overlay drawer */
+  .sidebar {
+    transform: translateX(-100%);
+    width: 270px;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Slide in when parent has --mobile-open modifier */
+  .app-layout--mobile-open .sidebar {
+    transform: translateX(0);
+  }
+
+  /* Do NOT apply collapsed width on mobile */
+  .sidebar--collapsed {
+    width: 270px;
+  }
+
+  /* Overlay appears when sidebar is open */
+  .app-layout--mobile-open .sidebar-overlay {
+    display: block;
+  }
+
+  /* Main content full width */
+  .main-content,
+  .main-content--collapsed {
+    margin-left: 0;
+  }
+
+  /* Show hamburger */
+  .rl-header__hamburger {
+    display: flex;
+  }
+
+  /* Show brand in header */
+  .rl-header__brand {
+    display: flex;
+  }
+
+  /* Show close button in sidebar */
+  .sidebar-close-btn {
+    display: flex;
+  }
+
+  /* Hide desktop collapse toggle */
+  .sidebar-toggle {
+    display: none;
+  }
+
+  /* ── Header tweaks ── */
+  .topbar {
+    padding: 0 16px;
+  }
+
+  .topbar-greeting p {
+    display: none;
+  }
+
+  .topbar-greeting h2 {
+    font-size: 15px;
+  }
+
+  /* Keep ud-header--in-topbar horizontal on mobile (override the column layout) */
+  .ud-header--in-topbar {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+  .ud-header--in-topbar .ud-user-id { display: none; }
+  .ud-header--in-topbar .ud-header-right { display: none; }
+  .ud-header--in-topbar .ud-name { font-size: 14px; }
+
+  /* ── Page content ── */
+  .page-content {
+    padding: 16px;
+  }
+
+  /* ── Dashboard demo grids ── */
+  .dash-demo-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .dash-demo-stat-value {
+    font-size: 24px;
+  }
+
+  .dash-demo-mid-grid,
+  .dash-demo-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-demo-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dash-demo-title {
+    font-size: 18px;
+  }
+
+  /* ── Existing dashboard page grids ── */
+  .stat-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-3,
+  .grid-2,
+  .two-col-grid,
+  .grid-physical,
+  .grid-three,
+  .grid-education,
+  .grid-at-risk {
+    grid-template-columns: 1fr;
+  }
+
+  .quest-stat-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* ── Page/section headers ── */
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* ── Login card ── */
+  .login-card {
+    width: calc(100vw - 32px);
+    padding: 28px 20px;
+  }
+
+  /* ── Form rows collapse to single column ── */
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── Dashboard tabs scrollable ── */
+  .dashboard-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── Users page ── */
+  .users-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .users-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .users-search-wrap {
+    max-width: 100%;
+  }
+
+  .users-filter-select {
+    width: 100%;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   EXTRA SMALL  (≤ 480px)
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .stat-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat-card .stat-value {
+    font-size: 22px;
+  }
+
+  .dash-demo-stat-grid {
+    gap: 8px;
+  }
+
+  .dash-demo-stat-card {
+    padding: 14px;
+  }
+
+  .topbar-greeting h2 {
+    font-size: 14px;
+  }
+}
