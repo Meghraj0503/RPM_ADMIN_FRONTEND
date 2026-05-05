@@ -10,6 +10,7 @@ import {
   MdClose,
   MdChevronLeft,
   MdChevronRight,
+  MdFitnessCenter
 } from 'react-icons/md';
 
 const navItems = [
@@ -17,8 +18,9 @@ const navItems = [
   { to: '/users',          icon: <MdPeople />,     label: 'Users' },
   { to: '/at-risk',        icon: <MdWarning />,    label: 'At Risk Users' },
   { to: '/questionnaires', icon: <MdAssignment />, label: 'Questionnaires' },
-  { to: '/articles',       icon: <MdArticle />,    label: 'Articles' },
-  { to: '/export',         icon: <MdDownload />,   label: 'Export Data' },
+  { to: '/articles', icon: <MdArticle />, label: 'Articles' },
+  { to: '/training', icon: <MdFitnessCenter />, label: 'Manage Training' },
+  { to: '/export', icon: <MdDownload />, label: 'Export Data' },
 ];
 
 /**

@@ -6,6 +6,7 @@ import {
   MdDevices,
   MdAssignment,
   MdHistory,
+  MdFitnessCenter,
 } from "react-icons/md";
 
 const TABS = [
@@ -15,6 +16,7 @@ const TABS = [
   { key: "enrollment",     label: "Program Enrollment",   icon: MdSchool },
   { key: "devices",        label: "Device Assignment",    icon: MdDevices },
   { key: "questionnaires", label: "Questionnaires",       icon: MdAssignment },
+  { key: "training",       label: "Training Progress",    icon: MdFitnessCenter },
   { key: "audit",          label: "Audit Trail",          icon: MdHistory },
 ];
 

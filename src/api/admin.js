@@ -57,3 +57,18 @@ export const assignQuestionnaire = (id, data) => api.post(`/api/admin/questionna
 export const getUserDevices  = (userId)         => api.get(`/api/admin/users/${userId}/devices`);
 export const assignDevice    = (userId, data)   => api.post(`/api/admin/users/${userId}/devices`, data);
 export const removeDevice    = (userId, devId)  => api.delete(`/api/admin/users/${userId}/devices/${devId}`);
+
+// Training Management
+export const getTrainingCategories  = ()           => api.get('/api/admin/training/categories');
+export const createTrainingCategory = (data)       => api.post('/api/admin/training/categories', data);
+export const getTrainingModules     = (params)     => api.get('/api/admin/training/modules', { params });
+export const createTrainingModule   = (data)       => api.post('/api/admin/training/modules', data);
+export const getTrainingModuleById  = (id)         => api.get(`/api/admin/training/modules/${id}`);
+export const updateTrainingModule   = (id, data)   => api.put(`/api/admin/training/modules/${id}`, data);
+export const toggleTrainingPublish  = (id)         => api.put(`/api/admin/training/modules/${id}/publish`);
+export const deleteTrainingModule        = (id)         => api.delete(`/api/admin/training/modules/${id}`);
+export const getUserTrainingProgress         = (userId)        => api.get(`/api/admin/training/users/${userId}/progress`);
+
+// Questionnaire Submissions
+export const getQuestionnaireSubmissions     = (questionnaireId) => api.get(`/api/admin/questionnaires/${questionnaireId}/submissions`);
+export const getSubmissionDetail             = (submissionId)    => api.get(`/api/admin/questionnaires/submissions/${submissionId}`);

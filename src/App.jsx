@@ -13,6 +13,8 @@ import ExportData from './pages/ExportData';
 import Questionnaires from './pages/Questionnaires';
 import QuestionnaireBuilder from './pages/QuestionnaireBuilder';
 import QuestionnaireAssign from './pages/QuestionnaireAssign';
+import TrainingManagement from './pages/TrainingManagement';
+import TrainingCreate from './pages/TrainingCreate';
 import './index.css';
 import './styles/main.css';
 import './styles/device.css';
@@ -50,6 +52,10 @@ export default function App() {
           <Route path="articles/new" element={<ArticleEdit />} />
           <Route path="articles/:id/edit" element={<ArticleEdit />} />
           <Route path="export" element={<ExportData />} />
+          <Route path="training" element={<TrainingManagement />} />
+          <Route path="training/new" element={<TrainingCreate />} />
+          <Route path="training/:id" element={<TrainingCreate />} />
+          <Route path="training/:id/edit" element={<TrainingCreate />} />
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

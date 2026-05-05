@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useHeaderContext } from "../contexts/HeaderContext";
 import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+} from 'recharts';
+import {
   getUserDetail,
   getUserAuditTrail,
   assignSubscription,
@@ -14,8 +17,10 @@ import {
   getUserDevices,
   assignDevice,
   removeDevice,
-} from "../api/admin";
-import { MdSearch, MdClose, MdWarningAmber } from "react-icons/md";
+} from '../api/admin';
+import { MdArrowBack, MdFileDownload, MdDeleteOutline, MdEdit, MdDirectionsRun, MdMonitorHeart, MdLocalFireDepartment, MdNightlightRound, MdEmojiFoodBeverage, MdLocalBar, MdSmokingRooms, MdSearch, MdClose, MdSwapHoriz, MdPersonRemove, MdWarningAmber } from 'react-icons/md';
+import { PieChart, Pie, Cell } from 'recharts';
+import VitalsSection from '../components/VitalsSection';
 
 import UserDetailHeader from "../components/userDetail/UserDetailHeader";
 import UserDetailTabs from "../components/userDetail/UserDetailTabs";
@@ -25,6 +30,7 @@ import LifestyleTab from "../components/userDetail/tabs/LifestyleTab";
 import EnrollmentTab from "../components/userDetail/tabs/EnrollmentTab";
 import DevicesTab from "../components/userDetail/tabs/DevicesTab";
 import QuestionnairesTab from "../components/userDetail/tabs/QuestionnairesTab";
+import TrainingTab from "../components/userDetail/tabs/TrainingTab";
 import AuditTab from "../components/userDetail/tabs/AuditTab";
 import "./style.css";
 
@@ -79,7 +85,6 @@ export default function UserDetail() {
   });
   const [deviceSaving, setDeviceSaving] = useState(false);
 
-  /* ── Data fetching ── */
   const fetchData = () => {
     setLoading(true);
     Promise.all([
@@ -106,7 +111,7 @@ export default function UserDetail() {
     fetchData();
   }, [id, days]);
   useEffect(() => {
-    if (activeTab === "devices") fetchDevices();
+    if (activeTab === 'devices') fetchDevices();
   }, [activeTab, id]);
 
   /* ── Inject UserDetailHeader into the global Header's left slot ── */
@@ -343,6 +348,7 @@ export default function UserDetail() {
           />
         )}
         {activeTab === "questionnaires" && <QuestionnairesTab qs={qs} />}
+        {activeTab === "training" && <TrainingTab userId={id} />}
         {activeTab === "audit" && <AuditTab u={u} audit={audit} />}
       </div>
 
